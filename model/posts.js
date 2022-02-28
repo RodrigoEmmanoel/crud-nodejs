@@ -41,6 +41,14 @@ module.exports = {
       }
     });
   },
+
+  editPost(payload) {
+      let currentPostIndex = this.posts.findIndex((post) => {
+        return post.id === payload.id
+      })
+
+      this.posts[currentPostIndex] = payload;
+  }
 };
 
 function generateID() {

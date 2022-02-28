@@ -1,0 +1,16 @@
+body {
+    background-color: #00529B;
+    padding: 20px;
+}
+.section-one {
+    background-color: #f0f8ff;
+    border-radius: 5px;
+    min-height: 80vh;
+    padding: 20px;
+}
+.card-item {
+    align-items: center;
+}
+h1, h2, h3 {
+    color: #FC7300;
+}

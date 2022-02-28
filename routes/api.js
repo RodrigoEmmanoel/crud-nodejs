@@ -3,6 +3,14 @@ const router = express.Router();
 const bodyParser = require("body-parser");
 const posts = require("../model/posts");
 
+function getCurrentDate(){
+  const today = new Date();
+
+  const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()+' / '+today.getHours()+':'+today.getMinutes();
+
+  return date;
+}
+
 router.get("/all", (req, res) => {
   res.json(JSON.stringify(posts.getAll()));
 });
@@ -16,8 +24,8 @@ router.post("/new", bodyParser.json(), (req, res) => {
   let genero = req.body.genero;
   let cpf = req.body.cpf;
   let nome = req.body.nome;
-  // let dataCriacao = req.body.dataCriacao;
-  // let dataAtt = req.body.dataAtt;
+  let dataCriacao = getCurrentDate();
+  let dataAtt = getCurrentDate();
 
   posts.newPost(
     foto,
@@ -27,7 +35,9 @@ router.post("/new", bodyParser.json(), (req, res) => {
     cpf,
     nome,
     endereco,
-    observacao
+    observacao,
+    dataCriacao,
+    dataAtt
   );
   // posts.newPost(foto, apelido,  telefone, genero, cpf, nome, endereco, observacao, dataCriaco, dataAtt);
 
@@ -40,6 +50,28 @@ router.delete("/del", express.json(), (req, res) => {
   posts.deletePost(id);
 
   res.send(`ID: ${id} deletado!`);
+});
+
+router.patch("/edit", express.json(), (req, res) => {
+
+  console.log(res, "<--res")
+  let payload = {
+    id: req.body.id,
+    foto: req.body.foto,
+    apelido: req.body.apelido,
+    telefone: req.body.telefone,
+    endereco: req.body.endereco,
+    observacao: req.body.observacao,
+    genero: req.body.genero,
+    cpf: req.body.cpf,
+    nome: req.body.nome,
+    dataCriacao: req.body.dataCriacao,
+    dataAtt: getCurrentDate(),
+  }
+
+  posts.editPost(payload);
+
+  res.send(`ID: ${payload.id} editado!`);
 });
 
 module.exports = router;
